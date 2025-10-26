@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import React from "react";
 import { Inter, Space_Grotesk as Grotesk } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/context/theme";
+import Navbar from "@/components/navigation/navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -10,7 +12,7 @@ const inter = Inter({
 });
 
 const grotesk = Grotesk({
-  variable: "--font-grotesk",
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -29,9 +31,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${grotesk.variable} antialiased`}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
